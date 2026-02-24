@@ -7,7 +7,7 @@ async function startServer() {
   const PORT = 3000;
 
   app.use(express.json());
-  app.use("/img", express.static(path.join(process.cwd(), "img")));
+  app.use("/public", express.static(path.join(process.cwd(), "public")));
   app.use("/ai", express.static(path.join(process.cwd(), "ai")));
 
   // API routes

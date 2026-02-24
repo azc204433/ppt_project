@@ -93,23 +93,23 @@ export default function App() {
       // Add main1.png to top-right
       try {
         slide1.addImage({
-          path: "/img/main1.png",
+          path: "/public/img/main1.png",
           x: 5.00, y: 0.2, w: 4.00, h: 0.35,
           sizing: { type: "contain", w: 4.00, h: 0.35 }
         });
       } catch (e) {
-        console.warn("Could not load /img/main1.png", e);
+        console.warn("Could not load /public/img/main1.png", e);
       }
 
       // Add main2.png to bottom (Full width 10", Height 100px ~ 1.04")
       try {
         slide1.addImage({
-          path: "/img/main2.png",
+          path: "/public/img/main2.png",
           x: 0, y: 6.46, w: 10.0, h: 1.04,
           sizing: { type: "cover", w: 10.0, h: 1.04 }
         });
       } catch (e) {
-        console.warn("Could not load /img/main2.png", e);
+        console.warn("Could not load /public/img/main2.png", e);
       }
 
       slide1.addText("공사 완료 보고서", {
@@ -132,7 +132,7 @@ export default function App() {
       // Slide 2 Header
       slide2.addText("◎ 공사 완료 보고서", { x: 0.2, y: 0.15, w: 4.0, h: 0.3, fontSize: 18, bold: true, color: "1A1A1A", valign: "middle" });
       try {
-        slide2.addImage({ path: "/img/main3.png", x: 8.5, y: 0.1, w: 1.4, h: 0.4, sizing: { type: "contain", w: 1.4, h: 0.4 } });
+        slide2.addImage({ path: "/public/img/main3.png", x: 8.5, y: 0.1, w: 1.4, h: 0.4, sizing: { type: "contain", w: 1.4, h: 0.4 } });
       } catch (e) { console.warn("Could not load slide 2 logos", e); }
 
       const summaryItems = [
@@ -150,12 +150,12 @@ export default function App() {
       // Add main5.png to Slide 2 with 50px bottom gap (Slide height 7.5", Gap 0.52")
       try {
         slide2.addImage({
-          path: "/img/main5.png",
+          path: "/public/img/main5.png",
           x: 0, y: 6.98, w: 10.0, h: 0.4,
           sizing: { type: "contain", w: 10.0, h: 0.4 }
         });
       } catch (e) {
-        console.warn("Could not load /img/main5.png", e);
+        console.warn("Could not load /public/img/main5.png", e);
       }
 
       // Slide 3: Photos (공사 사진)
@@ -166,7 +166,7 @@ export default function App() {
         // Slide 3 Header
         slide3.addText("◎ 공사 진행 사진", { x: 0.2, y: 0.15, w: 4.0, h: 0.3, fontSize: 18, bold: true, color: "1A1A1A", valign: "middle" });
         try {
-          slide3.addImage({ path: "/img/main3.png", x: 8.5, y: 0.1, w: 1.4, h: 0.4, sizing: { type: "contain", w: 1.4, h: 0.4 } });
+          slide3.addImage({ path: "/public/img/main3.png", x: 8.5, y: 0.1, w: 1.4, h: 0.4, sizing: { type: "contain", w: 1.4, h: 0.4 } });
         } catch (e) { console.warn("Could not load slide 3 logos", e); }
 
         // Refined Grid Layout Logic
@@ -217,7 +217,7 @@ export default function App() {
         // Add main5.png to Slide 3 (Matching Slide 2)
         try {
           slide3.addImage({
-            path: "/img/main5.png",
+            path: "/public/img/main5.png",
             x: 0, y: 6.98, w: 10.0, h: 0.4,
             sizing: { type: "contain", w: 10.0, h: 0.4 }
           });

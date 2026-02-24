@@ -1,0 +1,5 @@
+{
+  "name": "Construction Report Generator",
+  "description": "Generate construction completion reports in PPTX format automatically.",
+  "requestFramePermissions": []
+}

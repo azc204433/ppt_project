@@ -10,11 +10,12 @@ import pptxgen from 'pptxgenjs';
 
 export default function App() {
   const [formData, setFormData] = useState({
-    companyName: '하이엠솔루텍',
-    workDesc: '공사 완료',
-    overviewText: '본사 복지동 식당 및 영양사실 실외기 FAN 긴급 교체의 건',
-    totalPrice: '842,300',
-    completeDate: new Date().toISOString().split('T')[0],
+    companyName: '',
+    workDesc: '',
+    overviewText: '',
+    totalPrice: '',
+    completeDate: '',
+    includeVAT: true,
   });
 
   const [photos, setPhotos] = useState<File[]>([]);
@@ -34,6 +35,18 @@ export default function App() {
     if (!dateStr) return "";
     const date = new Date(dateStr);
     return `${date.getFullYear()}년 ${String(date.getMonth() + 1).padStart(2, '0')}월 ${String(date.getDate()).padStart(2, '0')}일`;
+  };
+
+  const calculateFinalPrice = () => {
+    if (!formData.totalPrice) return 0;
+    const amount = Number(toDigitsOnly(formData.totalPrice));
+    return formData.includeVAT ? amount : Math.floor(amount * 1.1);
+  };
+
+  const getPriceDisplay = () => {
+    const finalAmount = calculateFinalPrice();
+    if (finalAmount === 0) return "";
+    return new Intl.NumberFormat("ko-KR").format(finalAmount);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -135,11 +148,14 @@ export default function App() {
         slide2.addImage({ path: "/img/main3.png", x: 8.5, y: 0.1, w: 1.4, h: 0.4, sizing: { type: "contain", w: 1.4, h: 0.4 } });
       } catch (e) { console.warn("Could not load slide 2 logos", e); }
 
+      const vatLabel = formData.includeVAT ? "(VAT포함)" : "(VAT별도)";
+      const displayPrice = formData.totalPrice || "0";
+
       const summaryItems = [
-        { label: "1. 개요", value: formData.overviewText },
-        { label: "2. 공사 완료 일자", value: formattedCompleteDate },
-        { label: "3. 공사 업체", value: formData.companyName },
-        { label: "4. 공사 비용", value: `${formData.totalPrice}원(VAT포함)` },
+        { label: "1. 개요", value: formData.overviewText || "-" },
+        { label: "2. 공사 완료 일자", value: formattedCompleteDate || "-" },
+        { label: "3. 공사 업체", value: formData.companyName || "-" },
+        { label: "4. 공사 비용", value: `${displayPrice}원 ${vatLabel}` },
       ];
 
       summaryItems.forEach((item, index) => {
@@ -227,7 +243,7 @@ export default function App() {
       }
 
       // Filename: 공사업체_공사완료보고서_금액원.pptx
-      const fileName = `${formData.companyName}_공사완료보고서_${formData.totalPrice}원.pptx`;
+      const fileName = `${formData.companyName || '보고서'}_공사완료보고서_${formData.totalPrice || '0'}원.pptx`;
       await pres.writeFile({ fileName });
     } catch (error) {
       console.error("Error generating PPTX:", error);
@@ -336,7 +352,25 @@ export default function App() {
                 </div>
 
                 <div>
-                  <label className="block font-bold mb-2 opacity-70">4. 공사 비용 (VAT 포함)</label>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="block font-bold opacity-70">4. 공사 비용</label>
+                    <div className="flex items-center gap-1 bg-[#F5F6F8] p-1 rounded-lg">
+                      <button
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, includeVAT: true }))}
+                        className={`px-3 py-1 rounded-md text-[10px] font-bold transition-all ${formData.includeVAT ? 'bg-black text-white shadow-sm' : 'text-black/40 hover:text-black/60'}`}
+                      >
+                        VAT 포함
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setFormData(prev => ({ ...prev, includeVAT: false }))}
+                        className={`px-3 py-1 rounded-md text-[10px] font-bold transition-all ${!formData.includeVAT ? 'bg-black text-white shadow-sm' : 'text-black/40 hover:text-black/60'}`}
+                      >
+                        VAT 별도
+                      </button>
+                    </div>
+                  </div>
                   <div className="relative">
                     <Calculator className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 opacity-20" />
                     <input
@@ -348,7 +382,12 @@ export default function App() {
                       placeholder="842,300"
                     />
                   </div>
-                  <p className="text-[11px] mt-1.5 text-black/40">자동 콤마 적용. PPT에는 "{formData.totalPrice}원(VAT포함)" 형태로 표시됩니다.</p>
+                  <p className="text-[11px] mt-1.5 text-black/40">
+                    {formData.includeVAT
+                      ? `입력하신 금액이 최종 정산 금액입니다. (${formData.totalPrice || '0'}원)`
+                      : `VAT 10%가 자동으로 합산됩니다. (최종: ${getPriceDisplay() || '0'}원)`
+                    }
+                  </p>
                 </div>
               </div>
 

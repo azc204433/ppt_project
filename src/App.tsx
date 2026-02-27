@@ -95,8 +95,8 @@ export default function App() {
         objects: [
           { rect: { x: 0, y: 0, w: "100%", h: 0.6, fill: { color: "FFFFFF" } } },
           // Two gray bars below header (80px wide dark gray ~ 0.83")
-          { rect: { x: 0, y: 0.6, w: 0.83, h: 0.05, fill: { color: "666666" } } },
-          { rect: { x: 0.83, y: 0.6, w: 9.17, h: 0.05, fill: { color: "CCCCCC" } } },
+          //{ rect: { x: 0, y: 0.6, w: 0.83, h: 0.05, fill: { color: "666666" } } },
+          //{ rect: { x: 0.83, y: 0.6, w: 9.17, h: 0.05, fill: { color: "CCCCCC" } } },
         ],
       });
 
@@ -107,47 +107,75 @@ export default function App() {
       try {
         slide1.addImage({
           path: "/img/main1.png",
-          x: 5.00, y: 0.2, w: 4.00, h: 0.35,
-          sizing: { type: "contain", w: 4.00, h: 0.35 }
+          x: 6.7, y: 0.4, w: 3.00, h: 0.32,
+          sizing: { type: "contain", w: 3.00, h: 0.32 }
         });
       } catch (e) {
         console.warn("Could not load /img/main1.png", e);
       }
 
-      // Add main2.png to bottom (Full width 10", Height 100px ~ 1.04")
+      // Add main2.png to bottom (Full width 10", Height 1.03")
       try {
         slide1.addImage({
           path: "/img/main2.png",
-          x: 0, y: 6.46, w: 10.0, h: 1.04,
-          sizing: { type: "cover", w: 10.0, h: 1.04 }
+          x: 0, y: 6.47, w: 10.0, h: 1.03,
+          sizing: { type: "cover", w: 10.0, h: 1.03 }
         });
       } catch (e) {
         console.warn("Could not load /img/main2.png", e);
       }
 
       slide1.addText("공사 완료 보고서", {
-        x: 0, y: 2.0, w: "100%",
-        align: "center", fontSize: 44, bold: true, color: "1A1A1A"
+        x: 0, y: 2.62, w: 10, h: 0.85,
+        align: "center", valign: "middle", fontFace: "Malgun Gothic", fontSize: 36.9, bold: true, color: "0070C0",
+        shadow: { type: "outer", color: "000000", opacity: 0.3, blur: 2, offset: 1, angle: 90 }
       });
       slide1.addText("한솔아이원스 시설환경팀", {
-        x: 0, y: 3.0, w: "100%",
-        align: "center", fontSize: 24, color: "666666"
+        x: 5.4, y: 4.05, w: 4.2, h: 0.7,
+        align: "left", fontFace: "Malgun Gothic", fontSize: 18.5, bold: true, color: "0A2E63"
       });
       slide1.addText(`${formattedToday}`, {
-        x: 0, y: 4.2, w: "100%",
-        align: "center", fontSize: 18, color: "999999"
+        x: 6.142, y: 4.72, w: 2.35, h: 0.5,
+        align: "right", fontFace: "Malgun Gothic", fontSize: 14.8, bold: true, color: "0A2E63"
       });
 
       // Slide 2: Summary (요약)
       const slide2 = pres.addSlide({ masterName: "CONTENT_MASTER" });
-      slide2.addText("Summary", { x: 0.5, y: 0.95, fontSize: 24, bold: true, color: "6F3198" });
 
       // Slide 2 Header
-      slide2.addText("◎ 공사 완료 보고서", { x: 0.2, y: 0.15, w: 4.0, h: 0.3, fontSize: 18, bold: true, color: "1A1A1A", valign: "middle" });
+      slide2.addText("◎ 공사 완료 보고서", {
+        x: 0.05, y: 0.060, w: 7.2, h: 0.6,
+        fontSize: 24, bold: true, color: "000000", fontFace: "YH헤드라인M",
+        valign: "middle",
+        margin: [3.7, 7.1, 3.7, 7.1], // top, right, bottom, left (0.13cm ~ 3.7pt, 0.25cm ~ 7.1pt)
+        autoFit: false
+      });
+
       try {
-        slide2.addImage({ path: "/img/main3.png", x: 8.5, y: 0.1, w: 1.4, h: 0.4, sizing: { type: "contain", w: 1.4, h: 0.4 } });
+        slide2.addImage({
+          path: "/img/main3.png", x: 8.736, y: 0.21, w: 1.164, h: 0.301,
+          sizing: { type: "contain", w: 1.164, h: 0.301 }
+        });
       } catch (e) { console.warn("Could not load slide 2 logos", e); }
 
+      // Divider Bar (main4 alternative)
+      slide2.addShape(pres.ShapeType.rect, {
+        x: 0, y: 0.56, w: 1.799, h: 0.102,
+        fill: { color: "757575" },
+        line: { color: "757575", width: 0 }
+      });
+      slide2.addShape(pres.ShapeType.rect, {
+        x: 1.799, y: 0.56, w: 8.201, h: 0.102,
+        fill: { color: "C8C8C8" },
+        line: { color: "C8C8C8", width: 0 }
+      });
+
+      // Summary Section Header
+      slide2.addText("▣ Summary", {
+        x: 0.45, y: 0.782, w: 5.0, h: 0.35,
+        fontSize: 20, bold: true, color: "7030A0", fontFace: "맑은 고딕",
+        valign: "middle"
+      });
       const vatLabel = formData.includeVAT ? "(VAT포함)" : "(VAT별도)";
       const displayPrice = formData.totalPrice || "0";
 
@@ -158,9 +186,54 @@ export default function App() {
         { label: "4. 공사 비용", value: `${displayPrice}원 ${vatLabel}` },
       ];
 
+      const bodyFont = "맑은 고딕";
+      const bodySize = 12;
+
+      // Summary Content Box
+      slide2.addShape(pres.ShapeType.roundRect, {
+        x: 0.45, y: 1.25, w: 9.1, h: 5.53,
+        fill: { color: "FFFFFF" },
+        line: { color: "D9D9D9", width: 2.5 }
+      });
+
+      // 🔹 박스 기준 값
+      const boxX = 0.45;
+      const boxY = 1.25;
+      const boxW = 9.1;
+
+      // 🔹 박스 내부 여백
+      const paddingLeft = 0.4;
+      const paddingTop = 0.4;
+
+      const startX = boxX + paddingLeft;
+      const startY = boxY + paddingTop;
+
       summaryItems.forEach((item, index) => {
-        slide2.addText(item.label, { x: 0.5, y: 1.5 + (index * 1.2), fontSize: 18, bold: true, color: "333333" });
-        slide2.addText(item.value, { x: 0.7, y: 1.9 + (index * 1.2), w: 8.5, fontSize: 16, color: "666666" });
+        const baseY = startY + (index * 1.0);
+
+        // 제목
+        slide2.addText(item.label, {
+          x: startX,
+          y: baseY,
+          w: boxW - (paddingLeft * 2),
+          h: 0.25,
+          fontFace: bodyFont,
+          fontSize: bodySize,
+          bold: false,
+          color: "000000",
+        });
+
+        // 내용
+        slide2.addText(`- ${item.value}`, {
+          x: startX + 0.25,
+          y: baseY + 0.3,
+          w: boxW - (paddingLeft * 2) - 0.25,
+          h: 0.25,
+          fontFace: bodyFont,
+          fontSize: bodySize,
+          bold: false,
+          color: "000000",
+        });
       });
 
       // Add main5.png to Slide 2 with 50px bottom gap (Slide height 7.5", Gap 0.52")
@@ -177,13 +250,41 @@ export default function App() {
       // Slide 3: Photos (공사 사진)
       if (photos.length > 0) {
         const slide3 = pres.addSlide({ masterName: "CONTENT_MASTER" });
-        slide3.addText(`완료 일자: ${formattedCompleteDate.replace(/^\d{4}년\s*/, '')}`, { x: 0.5, y: 1.0, fontSize: 20, bold: true, color: "1A1A1A" });
 
-        // Slide 3 Header
-        slide3.addText("◎ 공사 진행 사진", { x: 0.2, y: 0.15, w: 4.0, h: 0.3, fontSize: 18, bold: true, color: "1A1A1A", valign: "middle" });
+        // Slide 3 Header (Matching Slide 2 Style but with Slide 3 Title)
+        slide3.addText("◎ 공사 진행 사진", {
+          x: 0.05, y: 0.06, w: 7.2, h: 0.6,
+          fontSize: 24, bold: true, color: "000000", fontFace: "YH헤드라인M",
+          valign: "middle",
+          margin: [3.7, 7.1, 3.7, 7.1], // top, right, bottom, left (0.13cm ~ 3.7pt, 0.25cm ~ 7.1pt)
+          autoFit: false
+        });
+
         try {
-          slide3.addImage({ path: "/img/main3.png", x: 8.5, y: 0.1, w: 1.4, h: 0.4, sizing: { type: "contain", w: 1.4, h: 0.4 } });
+          slide3.addImage({
+            path: "/img/main3.png", x: 8.736, y: 0.21, w: 1.164, h: 0.301,
+            sizing: { type: "contain", w: 1.164, h: 0.301 }
+          });
         } catch (e) { console.warn("Could not load slide 3 logos", e); }
+
+        // Divider Bar (main4 alternative) on Slide 3
+        slide3.addShape(pres.ShapeType.rect, {
+          x: 0, y: 0.56, w: 1.799, h: 0.102,
+          fill: { color: "757575" },
+          line: { color: "757575", width: 0 }
+        });
+        slide3.addShape(pres.ShapeType.rect, {
+          x: 1.799, y: 0.56, w: 8.201, h: 0.102,
+          fill: { color: "C8C8C8" },
+          line: { color: "C8C8C8", width: 0 }
+        });
+
+        // 완료 일자 라인 (Slide 2의 Summary 위치와 동일)
+        slide3.addText(`완료 일자 : ${formattedCompleteDate || "-"}`, {
+          x: 0.45, y: 0.782, w: 5.0, h: 0.35,
+          fontSize: 18, bold: true, color: "000000", fontFace: "맑은 고딕",
+          valign: "middle"
+        });
 
         // Refined Grid Layout Logic
         const count = photos.length;
@@ -224,13 +325,18 @@ export default function App() {
             sizing: { type: "contain", w: cellW, h: cellH }
           });
         }
-        // Slide 3 Caption in Blue with Brackets
-        slide3.addText(`[ ${formData.overviewText} ]`, {
+
+        // Slide 3 Caption (Overview text in brackets)
+        slide3.addText(`[ ${formData.overviewText || ""} ]`, {
           x: 0.5, y: 6.5, w: 9,
-          align: "center", fontSize: 14, italic: true, color: "0000FF"
+          align: "center",
+          fontSize: 14,
+          fontFace: "맑은 고딕",
+          color: "0000FF",
+          bold: true
         });
 
-        // Add main5.png to Slide 3 (Matching Slide 2)
+        // Add main5.png to Slide 3 footer
         try {
           slide3.addImage({
             path: "/img/main5.png",
@@ -238,7 +344,7 @@ export default function App() {
             sizing: { type: "contain", w: 10.0, h: 0.4 }
           });
         } catch (e) {
-          console.warn("Could not load main5 on slide 3", e);
+          console.warn("Could not load /img/main5.png", e);
         }
       }
 
@@ -314,7 +420,7 @@ export default function App() {
                     onChange={handleChange}
                     rows={3}
                     className="w-full bg-[#F5F6F8] border-none rounded-xl p-4 focus:ring-2 focus:ring-black transition-all outline-none text-[13px] leading-relaxed"
-                    placeholder="예) 본사 복지동 식당 및 영양사실 실외기 FAN 긴급 교체의 건"
+                    placeholder=""
                   />
                   <p className="text-[11px] mt-1.5 text-black/40">2번째 슬라이드와 사진 슬라이드 하단 캡션에 동일하게 사용됩니다.</p>
                 </div>
@@ -344,7 +450,7 @@ export default function App() {
                         value={formData.companyName}
                         onChange={handleChange}
                         className="w-full bg-[#F5F6F8] border-none rounded-xl py-3 pl-10 pr-4 focus:ring-2 focus:ring-black transition-all outline-none text-[13px]"
-                        placeholder="예) 하이엠솔루텍"
+                        placeholder=""
                       />
                     </div>
                     <p className="text-[11px] mt-1.5 text-black/40">다운로드 파일명에도 사용됩니다.</p>
@@ -379,7 +485,7 @@ export default function App() {
                       value={formData.totalPrice}
                       onChange={handleChange}
                       className="w-full bg-[#F5F6F8] border-none rounded-xl py-3 pl-10 pr-4 focus:ring-2 focus:ring-black transition-all outline-none text-[13px] font-medium"
-                      placeholder="842,300"
+                      placeholder=""
                     />
                   </div>
                   <p className="text-[11px] mt-1.5 text-black/40">
